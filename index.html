@@ -639,8 +639,6 @@ footer{background:#120a1e}
 .about-gallery,.contact-form{background:rgba(22,10,32,.55);backdrop-filter:blur(10px)}
 
 /* HERO PHOTO: color reveal spotlight + floating tech icons + scroll progress */
-.cutout img.bw{position:absolute;inset:0;filter:grayscale(1) contrast(1.1) brightness(.85) drop-shadow(0 25px 45px rgba(0,0,0,.55))}
-.cutout img:not(.bw){position:relative;-webkit-mask-image:radial-gradient(circle var(--r,250px) at var(--mx,55%) var(--my,38%),#000 45%,transparent 100%);mask-image:radial-gradient(circle var(--r,250px) at var(--mx,55%) var(--my,38%),#000 45%,transparent 100%)}
 .cutout .tfloat{position:absolute;left:var(--x);top:var(--y);z-index:3;width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:1.55rem;color:var(--c);background:rgba(20,10,30,.72);border:1px solid color-mix(in srgb,var(--c) 45%,transparent);backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.35),0 0 24px color-mix(in srgb,var(--c) 35%,transparent);translate:calc(var(--px,0)*var(--dp)*1px) calc(var(--py,0)*var(--dp)*1px);animation:tfloat 5.5s ease-in-out infinite alternate;animation-delay:var(--dl)}
 @keyframes tfloat{from{transform:translateY(0) rotate(-6deg)}to{transform:translateY(-16px) rotate(7deg)}}
 @media(max-width:760px){.cutout .tfloat{width:38px;height:38px;font-size:1.1rem;border-radius:12px}}
@@ -677,6 +675,12 @@ footer{background:#120a1e}
 #preloader .pre-bar i{width:0;animation:none;border-radius:4px;background:linear-gradient(90deg,#F9A8D4,#C4B5FD,#7DD3FC,#6EE7B7);box-shadow:0 0 14px rgba(196,181,253,.7)}
 .pl-count{margin-top:10px;font-family:'Anton',Impact,sans-serif;letter-spacing:.15em;color:var(--muted);font-size:.9rem}
 #preloader.done{transition:transform .9s cubic-bezier(.77,0,.18,1),opacity .9s;opacity:.4}
+
+/* Hero photo: color by default, turns black and white on hover/tap */
+.cutout img{transition:transform .9s cubic-bezier(.2,.8,.2,1),filter .7s ease}
+.cutout:hover img,.cutout.bwmode img{transform:scale(1.03);filter:grayscale(1) contrast(1.12) brightness(1.05) drop-shadow(0 30px 55px rgba(0,0,0,.6))}
+.cutout::before{transition:opacity .7s,filter .7s}
+.cutout:hover::before,.cutout.bwmode::before{filter:hue-rotate(40deg) saturate(1.4)}
 </style>
 </head>
 
@@ -716,7 +720,7 @@ footer{background:#120a1e}
     <div class="cover-title"><h1 aria-label="Jannel Briones"><span aria-hidden="true">JANNEL</span><span aria-hidden="true">BRIONES</span></h1></div>
 
     <div class="cutout">
-      <img class="bw" src="images/cutout-bw.webp" alt="" aria-hidden="true" decoding="async"><img src="images/hero-cutout.webp" width="829" height="1006" decoding="async" fetchpriority="high" alt="Portrait of Jannel Briones">
+      <img src="images/hero-cutout.webp" width="829" height="1006" decoding="async" fetchpriority="high" alt="Portrait of Jannel Briones">
       <span class="photo-frame" aria-hidden="true"></span>
       <svg class="badge-ring" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#circ" textLength="283" lengthAdjust="spacing">OPEN TO WORK • FRONT-END • WEB DEV • 2026 •</textPath></text></svg>
       <span class="badge-core" aria-hidden="true">✳</span><span class="tfloat" aria-hidden="true" style="--x:2%;--y:8%;--c:#FB923C;--dp:28;--dl:0s"><i class="fa-brands fa-html5"></i></span><span class="tfloat" aria-hidden="true" style="--x:-9%;--y:27%;--c:#7DD3FC;--dp:-22;--dl:-1.5s"><i class="fa-brands fa-css3-alt"></i></span><span class="tfloat" aria-hidden="true" style="--x:88%;--y:6%;--c:#FCD34D;--dp:-34;--dl:-3s"><i class="fa-brands fa-js"></i></span><span class="tfloat" aria-hidden="true" style="--x:95%;--y:30%;--c:#F9A8D4;--dp:24;--dl:-2s"><i class="fa-brands fa-figma"></i></span><span class="tfloat" aria-hidden="true" style="--x:92%;--y:58%;--c:#F87171;--dp:-26;--dl:-4s"><i class="fa-brands fa-git-alt"></i></span><span class="tfloat" aria-hidden="true" style="--x:-4%;--y:68%;--c:#FFF0F3;--dp:30;--dl:-1s"><i class="fa-brands fa-github"></i></span>
@@ -1149,21 +1153,16 @@ document.querySelectorAll('.certificate-image img,.project-image img,.shots img'
 });
 </script>
 <script>
-/* Hero: color spotlight on the photo, icon parallax, scroll progress */
+/* Hero: icon parallax, tap to toggle black and white, scroll progress */
 (()=>{
   const h=document.querySelector('.hero'),c=document.querySelector('.cutout'),bar=document.getElementById('progress');
   const upd=()=>{const m=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(m>0?scrollY/m:0)+')'};
   addEventListener('scroll',upd,{passive:true});upd();
   if(!c)return;
-  if(reduced){c.style.setProperty('--r','900px');return}
-  let active=false,to,t=0;
-  const set=(x,y)=>{c.style.setProperty('--mx',x+'%');c.style.setProperty('--my',y+'%')};
-  h.addEventListener('pointermove',e=>{
-    const r=c.getBoundingClientRect(),hr=h.getBoundingClientRect();
-    set((e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100);
-    h.style.setProperty('--px',((e.clientX-hr.left)/hr.width-.5)*2);h.style.setProperty('--py',((e.clientY-hr.top)/hr.height-.5)*2);
-    active=true;clearTimeout(to);to=setTimeout(()=>active=false,2500)},{passive:true});
-  (function loop(){requestAnimationFrame(loop);if(active)return;t+=.012;set(52+20*Math.sin(t),36+14*Math.sin(t*1.7))})();
+  c.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')c.classList.toggle('bwmode')});
+  if(reduced)return;
+  h.addEventListener('pointermove',e=>{const hr=h.getBoundingClientRect();
+    h.style.setProperty('--px',((e.clientX-hr.left)/hr.width-.5)*2);h.style.setProperty('--py',((e.clientY-hr.top)/hr.height-.5)*2)},{passive:true});
 })();
 </script>
 <script>
