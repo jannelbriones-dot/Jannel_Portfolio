@@ -681,6 +681,41 @@ footer{background:#120a1e}
 .cutout:hover img,.cutout.bwmode img{transform:scale(1.03);filter:grayscale(1) contrast(1.12) brightness(1.05) drop-shadow(0 30px 55px rgba(0,0,0,.6))}
 .cutout::before{transition:opacity .7s,filter .7s}
 .cutout:hover::before,.cutout.bwmode::before{filter:hue-rotate(40deg) saturate(1.4)}
+
+/* FILTER, MODAL, STATS, LIGHTBOX ARROWS */
+.filter-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:-20px 0 30px}
+.filter-tabs button{font:inherit;font-size:.8rem;font-weight:700;padding:9px 20px;border-radius:30px;cursor:pointer;color:var(--rose-l);background:rgba(255,255,255,.04);border:1px solid var(--border);transition:var(--t)}
+.filter-tabs button:hover{border-color:var(--rose);transform:translateY(-2px)}
+.filter-tabs button.on{background:linear-gradient(90deg,#F9A8D4,#C4B5FD);color:#160D12;border-color:transparent}
+.project-card[hidden]{display:none}
+.project-card.pop{animation:cardPop .55s cubic-bezier(.2,.9,.2,1) both}
+@keyframes cardPop{from{opacity:0;transform:translateY(24px) scale(.94)}to{opacity:1;transform:none}}
+.project-image{cursor:pointer}
+.detail-btn{padding:10px 20px;font-size:.8rem;color:var(--c);border-color:var(--c);background:transparent}
+.detail-btn:hover{background:color-mix(in srgb,var(--c) 18%,transparent)}
+#pm{position:fixed;inset:0;z-index:3000;display:grid;place-items:center;padding:20px;background:rgba(10,5,18,.82);backdrop-filter:blur(10px);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+#pm.open{opacity:1;visibility:visible}
+.pm-box{position:relative;width:min(980px,100%);max-height:92vh;overflow:auto;display:grid;grid-template-columns:1.1fr 1fr;gap:26px;padding:26px;border-radius:22px;background:linear-gradient(160deg,#2a1238,#14091f);border:1px solid var(--c);box-shadow:0 30px 90px rgba(0,0,0,.6),0 0 60px color-mix(in srgb,var(--c) 25%,transparent);transform:translateY(30px) scale(.96);transition:transform .45s cubic-bezier(.2,.9,.2,1)}
+#pm.open .pm-box{transform:none}
+.pm-main{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:14px;border:1px solid var(--border);background:#14091f}
+.pm-thumbs{display:flex;gap:10px;margin-top:12px}
+.pm-thumbs img{flex:1;min-width:0;height:70px;object-fit:cover;border-radius:10px;cursor:pointer;opacity:.55;border:2px solid transparent;transition:var(--t)}
+.pm-thumbs img.on,.pm-thumbs img:hover{opacity:1;border-color:var(--c)}
+.pm-info h3{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1.4;margin:10px 0}
+.pm-info p{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+.pm-info .detail-label{display:block;margin-top:6px;color:var(--c)}
+.pm-x{position:absolute;top:12px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:rgba(0,0,0,.4);color:var(--white);font-size:1.4rem;cursor:pointer;z-index:2}
+.pm-x:hover{background:var(--c);color:#160D12}
+@media(max-width:760px){.pm-box{grid-template-columns:1fr;padding:18px}}
+.stat-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:-20px auto 36px}
+.stat{min-width:150px;text-align:center;padding:16px 26px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--border);backdrop-filter:blur(8px)}
+.stat b{display:block;font-family:'Anton',Impact,sans-serif;font-weight:400;font-size:2.6rem;line-height:1.1;background:linear-gradient(90deg,#F9A8D4,#C4B5FD,#7DD3FC);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat span{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lb-nav{position:fixed;top:50%;width:52px;height:52px;margin-top:-26px;border-radius:50%;border:1px solid rgba(255,240,243,.4);background:rgba(20,10,30,.75);color:#fff;font-size:1.5rem;cursor:pointer;z-index:2;transition:var(--t)}
+.lb-nav:hover{background:var(--rose);color:#160D12}
+.lb-prev{left:20px}.lb-next{right:20px}
+.lb-count{position:fixed;bottom:22px;left:0;right:0;text-align:center;color:var(--rose-l);font-size:.8rem;letter-spacing:.15em}
+.about-content{margin-top:44px}
 </style>
 </head>
 
@@ -746,7 +781,6 @@ footer{background:#120a1e}
 <div class="container">
   <p class="section-label">Get to know me</p>
   <h2 class="section-title">About <span class="accent">Me</span></h2>
-  <p class="section-subtitle">My background, strengths, and what I am looking for next.</p>
 
   <div class="about-content">
     <!-- EDIT: replace images/about1.jpg ... about4.jpg with your own photos -->
@@ -794,7 +828,6 @@ footer{background:#120a1e}
     </div>
 
     <div class="about-text reveal">
-      <h3>Building useful things for the web.</h3>
       <p>I am a Bachelor of Science in Information Technology graduate from Nueva Ecija University of Science and Technology in Cabanatuan City, Nueva Ecija. Through my academic projects and capstone experience, I developed practical skills in web development, database management, and UI/UX design.</p>
       <p>I am an adaptable and dependable individual who is eager to learn new technologies and continuously improve my skills. I value teamwork, take responsibility for my work, and strive to create clean, functional, and user-friendly digital experiences.</p>
       <p>I aspire to build a career in web development, particularly in front-end development, where I can apply my knowledge, contribute to meaningful projects, and continue growing as a developer.</p>
@@ -839,8 +872,9 @@ footer{background:#120a1e}
   <h2 class="section-title">Featured <span class="accent">Projects</span></h2>
   <p class="section-subtitle">Projects that show my technical skills, design thinking, and teamwork.</p>
 
+  <div class="filter-tabs" role="tablist" aria-label="Filter projects"><button class="on" data-f="all">All</button><button data-f="web">Web</button><button data-f="uiux">UI/UX</button><button data-f="capstone">Capstone</button></div>
   <div class="project-grid">
-    <article class="project-card reveal">
+    <article class="project-card reveal" data-cat="capstone web">
       <div class="project-image"><img src="images/sierra.png" alt="SIERRA Environmental Reporting System"><a class="visit-chip" href="https://sierrasanisidro.great-site.net/" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><span class="live-dot"></span>Live website <i class="fas fa-arrow-up-right-from-square"></i></a>
       <div class="shots"><div><img src="images/sierra2.png" alt="SIERRA screenshot 1" loading="lazy"></div><div><img src="images/sierra3.png" alt="SIERRA screenshot 2" loading="lazy"></div></div>
       <div class="project-details">
@@ -854,7 +888,7 @@ footer{background:#120a1e}
       </div>
     </article>
 
-    <article class="project-card reveal">
+    <article class="project-card reveal" data-cat="web">
       <div class="project-image"><img src="images/prosple.png" alt="Prosple Job Search Web Application"><a class="visit-chip" href="http://localhost/" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><span class="live-dot"></span>Local build <i class="fas fa-arrow-up-right-from-square"></i></a>
       <div class="shots"><div><img src="images/prosple2.png" alt="Prosple screenshot 1" loading="lazy"></div><div><img src="images/prosple3.png" alt="Prosple screenshot 2" loading="lazy"></div></div>
       <div class="project-details">
@@ -869,7 +903,7 @@ footer{background:#120a1e}
       </div>
     </article>
 
-    <article class="project-card reveal">
+    <article class="project-card reveal" data-cat="uiux">
       <div class="project-image"><img src="images/municipality.png" alt="Municipality of San Antonio website design"><a class="visit-chip" href="https://www.figma.com/proto/Z6xnuOdbxSbSpIderF02WC/HCI-case-study?node-id=115-1084&starting-point-node-id=115%3A1084" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><span class="live-dot"></span>Figma prototype <i class="fas fa-arrow-up-right-from-square"></i></a>
       <div class="shots"><div><img src="images/municipality2.png" alt="Municipality screenshot 1" loading="lazy"></div><div><img src="images/municipality3.png" alt="Municipality screenshot 2" loading="lazy"></div></div>
       <div class="project-details">
@@ -883,7 +917,7 @@ footer{background:#120a1e}
       </div>
     </article>
 
-    <article class="project-card reveal">
+    <article class="project-card reveal" data-cat="uiux">
       <div class="project-image"><img src="images/sky1.png" alt="Skyventure space exploration app"><a class="visit-chip" href="https://www.figma.com/proto/zEj7gg7Qq1iJgkrHfcf8GI/SkyVenture?node-id=1-978" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><span class="live-dot"></span>Figma prototype <i class="fas fa-arrow-up-right-from-square"></i></a>
       <div class="shots"><div><img src="images/sky2.png" alt="Skyventure screenshot 1" loading="lazy"></div><div><img src="images/sky3.png" alt="Skyventure screenshot 2" loading="lazy"></div></div>
       <div class="project-details">
@@ -1172,6 +1206,48 @@ const w=['Hello','Kumusta','Hola','Bonjour','Welcome'];let i=0;
 const gi=setInterval(()=>{i=(i+1)%w.length;g.textContent=w[i];g.classList.remove('sw');void g.offsetWidth;g.classList.add('sw')},560);
 const st=performance.now(),D=2600;
 (function f(t){const p=Math.min((t-st)/D,1),e=1-Math.pow(1-p,3);n.textContent=Math.round(e*100);b.style.width=e*100+'%';if(p<1)requestAnimationFrame(f);else clearInterval(gi)})(st);
+})();
+</script>
+<script>
+/* Project filter + detail modal, certificate stats + lightbox arrows */
+(()=>{
+  const cards=[...document.querySelectorAll('.project-card')];
+  /* filter */
+  document.querySelectorAll('.filter-tabs button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-tabs button').forEach(x=>x.classList.toggle('on',x===b));
+    cards.forEach(c=>{const ok=b.dataset.f==='all'||c.dataset.cat.split(' ').includes(b.dataset.f);c.hidden=!ok;c.classList.remove('pop');if(ok){c.classList.add('visible');void c.offsetWidth;c.classList.add('pop')}});
+  }));
+  /* modal */
+  const pm=document.createElement('div');pm.id='pm';pm.setAttribute('role','dialog');pm.setAttribute('aria-modal','true');
+  pm.innerHTML='<div class="pm-box"><button type="button" class="pm-x" aria-label="Close">&times;</button><div><img class="pm-main" alt=""><div class="pm-thumbs"></div></div><div class="pm-info"></div></div>';
+  document.body.appendChild(pm);
+  const box=pm.querySelector('.pm-box'),main=pm.querySelector('.pm-main'),th=pm.querySelector('.pm-thumbs'),info=pm.querySelector('.pm-info'),x=pm.querySelector('.pm-x');
+  const close=()=>{pm.classList.remove('open');document.body.style.overflow=''};
+  function open(c){
+    const imgs=[c.querySelector('.project-image img'),...c.querySelectorAll('.shots img')];
+    box.style.setProperty('--c',getComputedStyle(c).getPropertyValue('--c')||'#D88CA3');
+    main.src=imgs[0].src;main.alt=imgs[0].alt;
+    th.innerHTML='';imgs.forEach((im,i)=>{const t=document.createElement('img');t.src=im.src;t.alt=im.alt;if(!i)t.className='on';t.onclick=()=>{main.src=t.src;[...th.children].forEach(y=>y.classList.toggle('on',y===t))};th.appendChild(t)});
+    const cta=c.querySelector('.proj-cta');
+    info.innerHTML='<span class="project-category">'+c.querySelector('.project-category').textContent+'</span><h3>'+c.querySelector('h3').textContent+'</h3><p>'+c.querySelector('.project-details>p').textContent+'</p><span class="detail-label">PROJECT OBJECTIVE</span><p>'+c.querySelector('.objective p').textContent+'</p><span class="detail-label">TECHNOLOGIES / TOOLS</span>'+c.querySelector('.tech-stack').outerHTML+'<div class="project-actions" style="margin-top:18px"><a class="btn btn-primary proj-cta" href="'+cta.href+'" target="_blank" rel="noopener noreferrer">'+cta.textContent.trim()+' <i class="fas fa-arrow-right"></i></a></div>';
+    pm.classList.add('open');document.body.style.overflow='hidden';x.focus();
+  }
+  cards.forEach(c=>{
+    const b=document.createElement('button');b.type='button';b.className='btn detail-btn';b.innerHTML='Details <i class="fas fa-expand"></i>';
+    c.querySelector('.project-actions').prepend(b);b.addEventListener('click',()=>open(c));
+    c.querySelector('.project-image').addEventListener('click',e=>{if(!e.target.closest('a'))open(c)});
+  });
+  x.onclick=close;pm.addEventListener('click',e=>{if(e.target===pm)close()});
+  /* lightbox arrows */
+  const lb=document.getElementById('lb');if(!lb)return;
+  const im=lb.querySelector('img'),list=[...document.querySelectorAll('.certificate-image img')];
+  const mk=(c,t,l)=>{const b=document.createElement('button');b.type='button';b.className='lb-nav '+c;b.setAttribute('aria-label',l);b.textContent=t;lb.appendChild(b);return b};
+  const pv=mk('lb-prev','‹','Previous certificate'),nx=mk('lb-next','›','Next certificate'),ct=document.createElement('div');ct.className='lb-count';lb.appendChild(ct);
+  const idx=()=>Math.max(0,list.findIndex(y=>y.src===im.src||y.currentSrc===im.src));
+  const show=i=>{i=(i+list.length)%list.length;im.src=list[i].src;im.alt=list[i].alt;ct.textContent=(i+1)+' / '+list.length};
+  pv.onclick=e=>{e.stopPropagation();show(idx()-1)};nx.onclick=e=>{e.stopPropagation();show(idx()+1)};
+  new MutationObserver(()=>{if(lb.classList.contains('open'))ct.textContent=(idx()+1)+' / '+list.length}).observe(lb,{attributes:true,attributeFilter:['class']});
+  addEventListener('keydown',e=>{if(e.key==='Escape')close();if(!lb.classList.contains('open'))return;if(e.key==='ArrowLeft')show(idx()-1);if(e.key==='ArrowRight')show(idx()+1)});
 })();
 </script>
 </body>
